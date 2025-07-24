@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarKey Forum - Account Request</title>
+  <style>
+    body {
+      background-color: #111;
+      font-family: Arial, sans-serif;
+      color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+    }
+    input, textarea {
+      background: #2c2c2c;
+      color: #fff;
+    }
+    button {
+      background-color: #00c853;
+      color: white;
+      cursor: pointer;
+    }
+    .success {
+      text-align: center;
+      margin-top: 20px;
+      color: #00e676;
+    }
+  </style>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+    })();function sendEmail(e) {
+  e.preventDefault();
+
+  emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', e.target)
+    .then(() => {
+      document.getElementById("signup-form").reset();
+      document.getElementById("success-msg").style.display = "block";
+    }, (error) => {
+      alert("Error: " + error.text);
+    });
+}
+
+  </script>
+</head>
+<body>
+  <h1>🔐 Request an Account</h1>
+  <form id="signup-form" onsubmit="sendEmail(event)">
+    <input type="text" name="username" placeholder="Preferred Username" required />
+    <input type="email" name="email" placeholder="Your Email Address" required />
+    <textarea name="tools" placeholder="What tools do you use? (e.g. VVDI, Autel, Tango)" rows="3"></textarea>
+    <textarea name="brands" placeholder="What car brands do you work on? (e.g. BMW, Audi, Toyota)" rows="3"></textarea>
+    <textarea name="reason" placeholder="Why do you want to join CarKey Forum?" rows="3"></textarea>
+    <button type="submit">Submit Request</button>
+  </form>
+  <div id="success-msg" class="success" style="display:none;">✅ Your request has been submitted!</div>
+</body>
+</html>
