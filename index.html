@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask the Locksmith</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    input, textarea {
+      background: #2b2b2b;
+      color: #fff;
+    }
+    button {
+      background: #00c853;
+      color: #fff;
+      cursor: pointer;
+    }
+    .question-list {
+      max-width: 600px;
+      margin: 40px auto;
+    }
+    .question {
+      background: #1e1e1e;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 5px solid #00c853;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Ask the Locksmith</h1>
+  <form id="questionForm">
+    <input type="text" id="name" placeholder="Your Name (optional)" />
+    <textarea id="question" placeholder="Ask your question here..." required></textarea>
+    <button type="submit">Submit Question</button>
+  </form>  <div class="question-list" id="questionList">
+    <h2>📋 Public Questions</h2>
+  </div>  <script>
+    const form = document.getElementById("questionForm");
+    const questionList = document.getElementById("questionList");
+
+    function displayQuestions() {
+      const questions = JSON.parse(localStorage.getItem("questions") || "[]");
+      questionList.innerHTML = '<h2>📋 Public Questions</h2>';
+      questions.forEach(q => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>${q.name || 'Anonymous'}:</strong><br>${q.text}`;
+        questionList.appendChild(div);
+      });
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const text = document.getElementById("question").value;
+      const questions = JSON.parse(localStorage.getItem("questions") || "[]");
+      questions.unshift({ name, text });
+      localStorage.setItem("questions", JSON.stringify(questions));
+      form.reset();
+      displayQuestions();
+    });
+
+    displayQuestions();
+  </script></body>
+</html>
